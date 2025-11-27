@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="items-header">
+    <h1><i class="fas fa-box-open"></i> Položky</h1>
+    {% if 'user_id' in session %}
+        <a href="{{ url_for('add_item') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Přidat položku
+        </a>
+    {% endif %}
+</div>
+
+<div class="table-responsive">
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Název</th>
+                <th>Popis</th>
+                <th>Cena</th>
+                <th>Kategorie</th>
+                <th>Stav</th>
+                <th>Vytvořeno</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description or '-' }}</td>
+                <td>{{ "%.2f"|format(item.price) }} Kč</td>
+                <td>{{ item.category }}</td>
+                <td>
+                    {% if item.is_available %}
+                        <span class="badge badge-success">Dostupné</span>
+                    {% else %}
+                        <span class="badge badge-danger">Nedostupné</span>
+                    {% endif %}
+                </td>
+                <td>{{ item.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Zatím nejsou přidány žádné položky</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

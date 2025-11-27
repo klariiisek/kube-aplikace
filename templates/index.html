@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+	<div class="container">
+		<h1>Vítejte ve Flask aplikaci</h1>
+		<p>Jednoduchá demo aplikace s registrací, přihlášením a správou položek.</p>
+		<p>
+			<a class="btn btn-primary" href="{{ url_for('items') }}">Prohlédnout položky</a>
+			<a class="btn btn-secondary" href="{{ url_for('register') }}">Registrovat se</a>
+		</p>
+	</div>
+</section>
+
+{% endblock %}

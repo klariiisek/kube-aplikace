@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | Flask Aplikace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Domů</a></li>
+            <li><a href="{{ url_for('items') }}"><i class="fas fa-box-open"></i> Položky</a></li>
+            <li><a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> O nás</a></li>
+            <li><a href="{{ url_for('contact') }}"><i class="fas fa-envelope"></i> Kontakt</a></li>
+            {% if 'user_id' not in session %}
+                <li><a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Přihlášení</a></li>
+                <li><a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Registrace</a></li>
+            {% else %}
+                <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Odhlásit se</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    
+    <main class="page-transition">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {% if category == 'success' %}
+                            <i class="fas fa-check-circle"></i>
+                        {% elif category == 'danger' %}
+                            <i class="fas fa-exclamation-circle"></i>
+                        {% elif category == 'warning' %}
+                            <i class="fas fa-exclamation-triangle"></i>
+                        {% endif %}
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Flask Aplikace | <i class="fas fa-code"></i> s <i class="fas fa-heart"></i> v Česku</p>
+    </footer>
+</body>
+</html>
